@@ -52,3 +52,13 @@ export class TFile {
 	name: string = "";
 	parent: { path: string } | null = null;
 }
+export class Vault {
+	getFiles(): any[] { return []; }
+	cachedRead(_file: any): Promise<string> { return Promise.resolve(""); }
+	on(_event: string, _callback: Function): any { return {}; }
+	offref(_ref: any): void {}
+}
+export class MetadataCache {
+	getFileCache(_file: any): any { return null; }
+}
+export type EventRef = any;
