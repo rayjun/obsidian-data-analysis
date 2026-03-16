@@ -1,3 +1,5 @@
+import type { Period } from "./types";
+
 export function countWords(text: string): number {
 	if (!text || !text.trim()) return 0;
 
@@ -18,4 +20,45 @@ export function countWords(text: string): number {
 	const englishCount = englishWords.length;
 
 	return chineseCount + englishCount;
+}
+
+/** Format timestamp to "YYYY-MM-DD" in local time */
+export function formatDate(ts: number): string {
+	const d = new Date(ts);
+	const year = d.getFullYear();
+	const month = String(d.getMonth() + 1).padStart(2, "0");
+	const day = String(d.getDate()).padStart(2, "0");
+	return `${year}-${month}-${day}`;
+}
+
+/** Get weekday: 0=Monday, 6=Sunday (differs from JS Date.getDay()) */
+export function getWeekday(ts: number): number {
+	const jsDay = new Date(ts).getDay();
+	return jsDay === 0 ? 6 : jsDay - 1;
+}
+
+/** Get date range for a period, ending at refDate */
+export function getDateRange(
+	period: Period,
+	refDate: number,
+): { start: number; end: number } {
+	const end = new Date(refDate);
+	end.setHours(23, 59, 59, 999);
+
+	const start = new Date(refDate);
+	start.setHours(0, 0, 0, 0);
+
+	switch (period) {
+		case "week":
+			start.setDate(start.getDate() - 6);
+			break;
+		case "month":
+			start.setDate(start.getDate() - 30);
+			break;
+		case "year":
+			start.setDate(start.getDate() - 364);
+			break;
+	}
+
+	return { start: start.getTime(), end: end.getTime() };
 }
