@@ -61,4 +61,6 @@ export class Vault {
 export class MetadataCache {
 	getFileCache(_file: any): any { return null; }
 }
+export class WorkspaceLeaf {}
+export class App {}
 export type EventRef = any;
