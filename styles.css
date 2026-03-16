@@ -1,1 +1,31 @@
-/* Vault Analytics styles */
+/* Vault Analytics Dashboard */
+.va-dashboard { padding: 20px; max-width: 1200px; margin: 0 auto; }
+.va-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.va-header h2 { margin: 0; }
+.va-period-switcher { display: flex; gap: 4px; background: var(--background-modifier-border); border-radius: 8px; padding: 3px; }
+.va-period-btn { padding: 6px 16px; border: none; border-radius: 6px; background: transparent; color: var(--text-muted); cursor: pointer; font-size: 13px; transition: all 0.15s ease; }
+.va-period-btn:hover { color: var(--text-normal); background: var(--background-modifier-hover); }
+.va-period-active { background: var(--interactive-accent) !important; color: var(--text-on-accent) !important; }
+.va-section { margin-bottom: 20px; }
+.va-section-title { font-size: 14px; font-weight: 600; color: var(--text-muted); margin-bottom: 10px; }
+.va-summary-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.va-card { background: var(--background-secondary); border-radius: 10px; padding: 16px; text-align: center; }
+.va-card-icon { font-size: 20px; margin-bottom: 6px; }
+.va-card-value { font-size: 28px; font-weight: 700; color: var(--text-normal); line-height: 1.2; }
+.va-card-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.va-heatmap { position: relative; }
+.va-heatmap-canvas-wrapper { overflow-x: auto; padding-bottom: 8px; }
+.va-heatmap-tooltip { position: absolute; background: var(--background-primary); border: 1px solid var(--background-modifier-border); padding: 4px 8px; border-radius: 4px; font-size: 11px; pointer-events: none; z-index: 10; white-space: nowrap; }
+.va-chart-row { display: flex; gap: 16px; margin-bottom: 20px; }
+.va-chart-main { flex: 2; min-height: 250px; }
+.va-chart-main canvas { max-height: 250px; }
+.va-chart-side { flex: 1; min-height: 250px; }
+.va-chart-side canvas { max-height: 250px; }
+.va-activity-chart canvas { max-height: 200px; }
+.va-empty-state { text-align: center; color: var(--text-muted); padding: 60px 20px; font-size: 16px; }
+.va-empty { color: var(--text-muted); font-size: 13px; padding: 20px; text-align: center; }
+.va-chart-error { color: var(--text-error); font-size: 13px; padding: 20px; text-align: center; }
+@media (max-width: 700px) {
+	.va-summary-cards { grid-template-columns: repeat(2, 1fr); }
+	.va-chart-row { flex-direction: column; }
+}
