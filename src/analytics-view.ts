@@ -15,6 +15,7 @@ export class AnalyticsView extends ItemView {
 	private currentPeriod: Period;
 	private charts: ChartComponent[] = [];
 	private contentArea: HTMLElement | null = null;
+	private unsubscribe: (() => void) | null = null;
 
 	constructor(leaf: WorkspaceLeaf, collector: DataCollector, defaultPeriod: Period) {
 		super(leaf);
@@ -52,11 +53,15 @@ export class AnalyticsView extends ItemView {
 		}
 
 		this.contentArea = container.createDiv({ cls: "va-content" });
-		this.collector.onDataChange(() => this.renderCharts());
+		this.unsubscribe = this.collector.onDataChange(() => this.renderCharts());
 		this.renderCharts();
 	}
 
-	async onClose(): Promise<void> { this.destroyCharts(); }
+	async onClose(): Promise<void> {
+		this.unsubscribe?.();
+		this.unsubscribe = null;
+		this.destroyCharts();
+	}
 
 	private renderCharts(): void {
 		this.destroyCharts();

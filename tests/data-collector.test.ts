@@ -84,13 +84,15 @@ describe("DataCollector", () => {
 		expect(tags).toContain("tag2");
 	});
 
-	it("notifies listener on data change callback", () => {
-		const vault = createMockVault([]);
+	it("notifies listener on data change callback", async () => {
+		const file = createMockFile("notes/test.md", 1000, 2000);
+		const vault = createMockVault([file]);
 		const cache = createMockMetadataCache();
 		const collector = new DataCollector(vault as any, cache as any, defaultSettings);
 		const callback = vi.fn();
 		collector.onDataChange(callback);
-		collector.notifyChange();
+		await collector.scanAll();
+		(collector as any).notifyChange();
 		expect(callback).toHaveBeenCalledOnce();
 	});
 

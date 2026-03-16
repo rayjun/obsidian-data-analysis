@@ -6,6 +6,7 @@ export class DataCollector {
 	private records: FileRecord[] = [];
 	private changeCallbacks: Array<() => void> = [];
 	private eventRefs: Array<{ event: string; ref: any }> = [];
+	private debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
 	constructor(
 		private vault: Vault,
@@ -31,7 +32,10 @@ export class DataCollector {
 		const events = ["create", "modify", "delete", "rename"] as const;
 		for (const event of events) {
 			const ref = this.vault.on(event as any, () => {
-				this.scanAll().then(() => this.notifyChange());
+				if (this.debounceTimer) clearTimeout(this.debounceTimer);
+				this.debounceTimer = setTimeout(() => {
+					this.scanAll().then(() => this.notifyChange());
+				}, 500);
 			});
 			this.eventRefs.push({ event, ref });
 		}
@@ -42,11 +46,21 @@ export class DataCollector {
 			this.vault.offref(ref);
 		}
 		this.eventRefs = [];
+		if (this.debounceTimer) {
+			clearTimeout(this.debounceTimer);
+			this.debounceTimer = null;
+		}
 	}
 
-	onDataChange(callback: () => void): void { this.changeCallbacks.push(callback); }
+	onDataChange(callback: () => void): () => void {
+		this.changeCallbacks.push(callback);
+		return () => {
+			const idx = this.changeCallbacks.indexOf(callback);
+			if (idx !== -1) this.changeCallbacks.splice(idx, 1);
+		};
+	}
 
-	notifyChange(): void {
+	private notifyChange(): void {
 		for (const cb of this.changeCallbacks) { cb(); }
 	}
 

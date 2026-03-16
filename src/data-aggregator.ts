@@ -26,6 +26,8 @@ export function aggregate(
 			heatmapData.set(createdDate, (heatmapData.get(createdDate) ?? 0) + 1);
 		}
 		const modifiedDate = formatDate(r.modifiedAt);
+		// Avoid double-counting: if a file was created and modified on the same day,
+		// only count it once (via the createdDate branch above)
 		if (r.modifiedAt >= start && r.modifiedAt <= end && modifiedDate !== createdDate) {
 			heatmapData.set(modifiedDate, (heatmapData.get(modifiedDate) ?? 0) + 1);
 		}

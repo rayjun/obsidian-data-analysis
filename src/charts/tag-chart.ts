@@ -1,7 +1,5 @@
-import { Chart, registerables } from "chart.js";
+import { Chart } from "chart.js";
 import type { AggregatedData, ChartComponent } from "../types";
-
-Chart.register(...registerables);
 
 const CHART_COLORS = ["#39d353", "#58a6ff", "#d2a8ff", "#f778ba", "#ff7b72", "#ffa657", "#d29922", "#3fb950", "#79c0ff", "#bc8cff"];
 

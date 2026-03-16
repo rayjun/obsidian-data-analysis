@@ -1,8 +1,11 @@
 import { Plugin } from "obsidian";
+import { Chart, registerables } from "chart.js";
 import {
 	VaultAnalyticsSettings,
 	DEFAULT_SETTINGS,
 } from "./types";
+
+Chart.register(...registerables);
 import { VaultAnalyticsSettingTab } from "./settings";
 import { DataCollector } from "./data-collector";
 import { AnalyticsView, VIEW_TYPE_ANALYTICS } from "./analytics-view";

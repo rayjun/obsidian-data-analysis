@@ -10,6 +10,8 @@ export class HeatmapChart implements ChartComponent {
 	private wrapper: HTMLElement | null = null;
 	private canvas: HTMLCanvasElement | null = null;
 	private tooltip: HTMLElement | null = null;
+	private cells: { x: number; y: number; date: string; count: number }[] = [];
+	private labelWidth = 30;
 
 	constructor(container: HTMLElement) {
 		this.container = container;
@@ -98,8 +100,8 @@ export class HeatmapChart implements ChartComponent {
 			ctx.fill();
 		}
 
-		(canvas as any).__cells = cells;
-		(canvas as any).__labelWidth = labelWidth;
+		this.cells = cells;
+		this.labelWidth = labelWidth;
 	}
 
 	private setupTooltip(data: AggregatedData): void {
@@ -111,9 +113,9 @@ export class HeatmapChart implements ChartComponent {
 			const rect = canvas.getBoundingClientRect();
 			const x = e.clientX - rect.left;
 			const y = e.clientY - rect.top;
-			const cells = (canvas as any).__cells as { x: number; y: number; date: string; count: number }[] | undefined;
-			const labelWidth = ((canvas as any).__labelWidth as number) ?? 30;
-			if (!cells) return;
+			const cells = this.cells;
+			const labelWidth = this.labelWidth;
+			if (cells.length === 0) return;
 			const col = Math.floor((x - labelWidth) / (CELL_SIZE + CELL_GAP));
 			const row = Math.floor(y / (CELL_SIZE + CELL_GAP));
 			const cell = cells.find((c) => c.x === col && c.y === row);

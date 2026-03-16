@@ -1,7 +1,5 @@
-import { Chart, registerables } from "chart.js";
+import { Chart } from "chart.js";
 import type { AggregatedData, ChartComponent } from "../types";
-
-Chart.register(...registerables);
 
 const DAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
