@@ -111,7 +111,8 @@ interface AggregatedData {
   tagDistribution: { tag: string; count: number }[];
 
   // Weekday activity: day number → activity count
-  activityByDay: { day: number; count: number }[];  // 0=Monday, 6=Sunday
+  // Note: 0=Monday, 6=Sunday (differs from JS Date.getDay() where 0=Sunday)
+  activityByDay: { day: number; count: number }[];
 }
 ```
 
@@ -162,15 +163,16 @@ function calculateStreak(records: FileRecord[]): number;
 
 ### Chart components
 
-Each chart component follows the same interface pattern:
+All chart components implement the same interface pattern:
 
 ```typescript
-class HeatmapChart {
-  constructor(container: HTMLElement);
+interface ChartComponent {
   render(data: AggregatedData): void;
   destroy(): void;
 }
 ```
+
+Concrete implementations: `HeatmapChart`, `TrendChart`, `TagChart`, `ActivityChart`, `SummaryCards`. Each takes a container `HTMLElement` in its constructor.
 
 ### analytics-view
 
