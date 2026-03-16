@@ -69,7 +69,7 @@ export function aggregate(
 	for (const r of activeRecords) {
 		const ts = r.modifiedAt >= start && r.modifiedAt <= end ? r.modifiedAt : r.createdAt;
 		const day = getWeekday(ts);
-		weekdayCounts[day]++;
+		if (weekdayCounts[day] !== undefined) weekdayCounts[day]++;
 	}
 	const activityByDay = weekdayCounts.map((count, day) => ({ day, count }));
 
