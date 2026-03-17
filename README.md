@@ -1,9 +1,9 @@
-# Obsidian Vault Analytics
+# Obsidian Data Analytics
 
 A data analytics dashboard plugin for [Obsidian](https://obsidian.md). Visualize your note-taking habits with a GitHub-style contribution heatmap, trend charts, tag distribution, and activity statistics.
 
 ![Obsidian](https://img.shields.io/badge/Obsidian-%23483699.svg?logo=obsidian&logoColor=white)
-![License](https://img.shields.io/github/license/rayjun/obsidian-vault-analytics)
+![License](https://img.shields.io/github/license/rayjun/obsidian-data-analytics)
 
 ## Features
 
@@ -21,29 +21,29 @@ A data analytics dashboard plugin for [Obsidian](https://obsidian.md). Visualize
 ### From Obsidian Community Plugins (Recommended)
 
 1. Open Obsidian Settings → Community plugins
-2. Click "Browse" and search for **Vault Analytics**
+2. Click "Browse" and search for **Data Analytics**
 3. Click Install, then Enable
 
 ### Install Script
 
 ```bash
-git clone https://github.com/rayjun/obsidian-vault-analytics.git
-cd obsidian-vault-analytics
+git clone https://github.com/rayjun/obsidian-data-analytics.git
+cd obsidian-data-analytics
 ./install.sh                    # Build only
 ./install.sh /path/to/vault     # Build and install to vault
 ```
 
 ### Manual Install
 
-1. Download `main.js`, `manifest.json`, `styles.css` from the [latest release](https://github.com/rayjun/obsidian-vault-analytics/releases/latest)
-2. Create folder `<vault>/.obsidian/plugins/vault-analytics/`
+1. Download `main.js`, `manifest.json`, `styles.css` from the [latest release](https://github.com/rayjun/obsidian-data-analytics/releases/latest)
+2. Create folder `<vault>/.obsidian/plugins/data-analytics/`
 3. Copy the 3 files into that folder
-4. Restart Obsidian → Settings → Community plugins → Enable **Vault Analytics**
+4. Restart Obsidian → Settings → Community plugins → Enable **Data Analytics**
 
 ## Usage
 
 - Click the **bar chart icon** in the left ribbon to open the dashboard
-- Or use the command palette: `Vault Analytics: Open analytics dashboard`
+- Or use the command palette: `Data Analytics: Open analytics dashboard`
 
 ### Settings
 

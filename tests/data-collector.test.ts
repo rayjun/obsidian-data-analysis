@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { DataCollector } from "../src/data-collector";
-import type { VaultAnalyticsSettings } from "../src/types";
+import type { DataAnalyticsSettings } from "../src/types";
 
 function createMockVault(files: any[] = []) {
 	return {
@@ -31,7 +31,7 @@ function createMockFile(path: string, ctime: number, mtime: number, ext = "md") 
 	};
 }
 
-const defaultSettings: VaultAnalyticsSettings = {
+const defaultSettings: DataAnalyticsSettings = {
 	excludeFolders: [".obsidian"],
 	defaultPeriod: "month",
 };

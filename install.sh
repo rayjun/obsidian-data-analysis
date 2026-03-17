@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Obsidian Vault Analytics 插件安装脚本
+# Obsidian Data Analytics 插件安装脚本
 # 用法: ./install.sh [vault路径]
 
 set -e
 
-PLUGIN_ID="vault-analytics"
+PLUGIN_ID="data-analytics"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # --- 颜色输出 ---
@@ -57,5 +57,5 @@ info "插件已安装到 $PLUGIN_DIR"
 echo ""
 echo "下一步："
 echo "  1. 重启 Obsidian"
-echo "  2. 设置 > 第三方插件 > 启用 Vault Analytics"
+echo "  2. 设置 > 第三方插件 > 启用 Data Analytics"
 echo "  3. 点击左侧栏图标或使用命令面板打开 Analytics Dashboard"

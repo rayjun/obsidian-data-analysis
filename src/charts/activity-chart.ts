@@ -35,7 +35,7 @@ export class ActivityChart implements ChartComponent {
 				},
 			});
 		} catch (err) {
-			console.error("[Vault Analytics] Failed to render activity chart:", err);
+			console.error("[Data Analytics] Failed to render activity chart:", err);
 			this.wrapper.createDiv({ cls: "va-chart-error", text: "Failed to load chart" });
 		}
 	}

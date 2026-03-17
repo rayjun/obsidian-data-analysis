@@ -1,11 +1,11 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
-import type VaultAnalyticsPlugin from "./main";
+import type DataAnalyticsPlugin from "./main";
 import type { Period } from "./types";
 
-export class VaultAnalyticsSettingTab extends PluginSettingTab {
-	plugin: VaultAnalyticsPlugin;
+export class DataAnalyticsSettingTab extends PluginSettingTab {
+	plugin: DataAnalyticsPlugin;
 
-	constructor(app: App, plugin: VaultAnalyticsPlugin) {
+	constructor(app: App, plugin: DataAnalyticsPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
@@ -13,7 +13,7 @@ export class VaultAnalyticsSettingTab extends PluginSettingTab {
 	display(): void {
 		const { containerEl } = this;
 		containerEl.empty();
-		containerEl.createEl("h2", { text: "Vault Analytics Settings" });
+		containerEl.createEl("h2", { text: "Data Analytics Settings" });
 
 		new Setting(containerEl)
 			.setName("Default time range")

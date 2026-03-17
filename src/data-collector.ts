@@ -1,5 +1,5 @@
 import type { TFile, Vault, MetadataCache } from "obsidian";
-import type { FileRecord, VaultAnalyticsSettings } from "./types";
+import type { FileRecord, DataAnalyticsSettings } from "./types";
 import { countWords } from "./utils";
 
 export class DataCollector {
@@ -11,7 +11,7 @@ export class DataCollector {
 	constructor(
 		private vault: Vault,
 		private metadataCache: MetadataCache,
-		private settings: VaultAnalyticsSettings,
+		private settings: DataAnalyticsSettings,
 	) {}
 
 	async scanAll(): Promise<FileRecord[]> {
@@ -95,7 +95,7 @@ export class DataCollector {
 				folder: file.parent?.path ?? "/",
 			};
 		} catch (err) {
-			console.warn(`[Vault Analytics] Failed to read ${file.path}:`, err);
+			console.warn(`[Data Analytics] Failed to read ${file.path}:`, err);
 			return null;
 		}
 	}

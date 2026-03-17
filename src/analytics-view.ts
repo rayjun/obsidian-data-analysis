@@ -8,7 +8,7 @@ import { TrendChart } from "./charts/trend-chart";
 import { TagChart } from "./charts/tag-chart";
 import { ActivityChart } from "./charts/activity-chart";
 
-export const VIEW_TYPE_ANALYTICS = "vault-analytics-view";
+export const VIEW_TYPE_ANALYTICS = "data-analytics-view";
 
 export class AnalyticsView extends ItemView {
 	private collector: DataCollector;
@@ -24,7 +24,7 @@ export class AnalyticsView extends ItemView {
 	}
 
 	getViewType(): string { return VIEW_TYPE_ANALYTICS; }
-	getDisplayText(): string { return "Vault Analytics"; }
+	getDisplayText(): string { return "Data Analytics"; }
 	getIcon(): string { return "bar-chart-2"; }
 
 	async onOpen(): Promise<void> {
@@ -33,7 +33,7 @@ export class AnalyticsView extends ItemView {
 		container.addClass("va-dashboard");
 
 		const header = container.createDiv({ cls: "va-header" });
-		header.createEl("h2", { text: "Vault Analytics" });
+		header.createEl("h2", { text: "Data Analytics" });
 
 		const switcher = header.createDiv({ cls: "va-period-switcher" });
 		const periods: Period[] = ["week", "month", "year"];

@@ -25,12 +25,12 @@ export interface AggregatedData {
 	activityByDay: { day: number; count: number }[];
 }
 
-export interface VaultAnalyticsSettings {
+export interface DataAnalyticsSettings {
 	excludeFolders: string[];
 	defaultPeriod: Period;
 }
 
-export const DEFAULT_SETTINGS: VaultAnalyticsSettings = {
+export const DEFAULT_SETTINGS: DataAnalyticsSettings = {
 	excludeFolders: [".obsidian"],
 	defaultPeriod: "month",
 };

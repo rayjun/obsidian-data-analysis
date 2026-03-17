@@ -36,7 +36,7 @@ export class TagChart implements ChartComponent {
 				},
 			});
 		} catch (err) {
-			console.error("[Vault Analytics] Failed to render tag chart:", err);
+			console.error("[Data Analytics] Failed to render tag chart:", err);
 			this.wrapper.createDiv({ cls: "va-chart-error", text: "Failed to load chart" });
 		}
 	}

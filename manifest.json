@@ -1,9 +1,9 @@
 {
-	"id": "vault-analytics",
-	"name": "Vault Analytics",
+	"id": "data-analytics",
+	"name": "Data Analytics",
 	"version": "0.1.0",
 	"minAppVersion": "0.15.0",
-	"description": "Data analytics dashboard with heatmap and charts for your Obsidian vault.",
+	"description": "Data analytics dashboard with heatmap and charts for your Obsidian vault",
 	"author": "rayjun",
 	"isDesktopOnly": false
 }

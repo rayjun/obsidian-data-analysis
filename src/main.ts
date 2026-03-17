@@ -1,17 +1,17 @@
 import { Plugin } from "obsidian";
 import { Chart, registerables } from "chart.js";
 import {
-	VaultAnalyticsSettings,
+	DataAnalyticsSettings,
 	DEFAULT_SETTINGS,
 } from "./types";
 
 Chart.register(...registerables);
-import { VaultAnalyticsSettingTab } from "./settings";
+import { DataAnalyticsSettingTab } from "./settings";
 import { DataCollector } from "./data-collector";
 import { AnalyticsView, VIEW_TYPE_ANALYTICS } from "./analytics-view";
 
-export default class VaultAnalyticsPlugin extends Plugin {
-	settings: VaultAnalyticsSettings = DEFAULT_SETTINGS;
+export default class DataAnalyticsPlugin extends Plugin {
+	settings: DataAnalyticsSettings = DEFAULT_SETTINGS;
 	private collector!: DataCollector;
 
 	async onload(): Promise<void> {
@@ -30,13 +30,13 @@ export default class VaultAnalyticsPlugin extends Plugin {
 		});
 
 		// Ribbon icon to open dashboard
-		this.addRibbonIcon("bar-chart-2", "Open Vault Analytics", () => {
+		this.addRibbonIcon("bar-chart-2", "Open Data Analytics", () => {
 			this.activateView();
 		});
 
 		// Command to open dashboard
 		this.addCommand({
-			id: "open-vault-analytics",
+			id: "open-data-analytics",
 			name: "Open analytics dashboard",
 			callback: () => {
 				this.activateView();
@@ -44,7 +44,7 @@ export default class VaultAnalyticsPlugin extends Plugin {
 		});
 
 		// Add settings tab
-		this.addSettingTab(new VaultAnalyticsSettingTab(this.app, this));
+		this.addSettingTab(new DataAnalyticsSettingTab(this.app, this));
 
 		// Scan vault and start listening
 		await this.collector.scanAll();
