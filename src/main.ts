@@ -17,6 +17,13 @@ export default class DataAnalyticsPlugin extends Plugin {
 
 	async onload(): Promise<void> {
 		await this.loadSettings();
+
+		// Always exclude the config directory
+		const configDir = this.app.vault.configDir;
+		if (!this.settings.excludeFolders.includes(configDir)) {
+			this.settings.excludeFolders.push(configDir);
+		}
+
 		const i18n = t(this.settings.language);
 
 		// Initialize data collector
@@ -33,15 +40,15 @@ export default class DataAnalyticsPlugin extends Plugin {
 
 		// Ribbon icon to open dashboard
 		this.addRibbonIcon("bar-chart-2", i18n.ribbonTooltip, () => {
-			this.activateView();
+			void this.activateView();
 		});
 
 		// Command to open dashboard
 		this.addCommand({
-			id: "open-data-analytics",
+			id: "open-dashboard",
 			name: i18n.commandName,
 			callback: () => {
-				this.activateView();
+				void this.activateView();
 			},
 		});
 
@@ -53,7 +60,7 @@ export default class DataAnalyticsPlugin extends Plugin {
 		this.collector.startListening();
 	}
 
-	async onunload(): Promise<void> {
+	onunload(): void {
 		this.collector?.stopListening();
 	}
 

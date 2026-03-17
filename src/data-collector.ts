@@ -1,11 +1,13 @@
-import type { TFile, Vault, MetadataCache } from "obsidian";
+import type { TFile, Vault, MetadataCache, EventRef } from "obsidian";
 import type { FileRecord, DataAnalyticsSettings } from "./types";
 import { countWords } from "./utils";
+
+type VaultEvent = "create" | "modify" | "delete" | "rename";
 
 export class DataCollector {
 	private records: FileRecord[] = [];
 	private changeCallbacks: Array<() => void> = [];
-	private eventRefs: Array<{ event: string; ref: any }> = [];
+	private eventRefs: Array<{ event: VaultEvent; ref: EventRef }> = [];
 	private debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
 	constructor(
@@ -29,16 +31,22 @@ export class DataCollector {
 	getRecords(): FileRecord[] { return this.records; }
 
 	startListening(): void {
-		const events = ["create", "modify", "delete", "rename"] as const;
-		for (const event of events) {
-			const ref = this.vault.on(event as any, () => {
-				if (this.debounceTimer) clearTimeout(this.debounceTimer);
-				this.debounceTimer = setTimeout(() => {
-					this.scanAll().then(() => this.notifyChange());
-				}, 500);
-			});
-			this.eventRefs.push({ event, ref });
-		}
+		const handler = () => {
+			if (this.debounceTimer) clearTimeout(this.debounceTimer);
+			this.debounceTimer = setTimeout(() => {
+				void this.scanAll().then(() => this.notifyChange());
+			}, 500);
+		};
+		const createRef = this.vault.on("create", handler);
+		const modifyRef = this.vault.on("modify", handler);
+		const deleteRef = this.vault.on("delete", handler);
+		const renameRef = this.vault.on("rename", handler);
+		this.eventRefs.push(
+			{ event: "create", ref: createRef },
+			{ event: "modify", ref: modifyRef },
+			{ event: "delete", ref: deleteRef },
+			{ event: "rename", ref: renameRef },
+		);
 	}
 
 	stopListening(): void {

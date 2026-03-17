@@ -16,7 +16,10 @@ export class DataAnalyticsSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 		const i18n = t(this.plugin.settings.language);
-		containerEl.createEl("h2", { text: i18n.settingsTitle });
+
+		new Setting(containerEl)
+			.setName(i18n.settingsTitle)
+			.setHeading();
 
 		new Setting(containerEl)
 			.setName(i18n.settingLanguage)
@@ -53,7 +56,7 @@ export class DataAnalyticsSettingTab extends PluginSettingTab {
 			.setDesc(i18n.settingExcludeFoldersDesc)
 			.addTextArea((text) =>
 				text
-					.setPlaceholder(".obsidian\ntemplates")
+					.setPlaceholder(this.app.vault.configDir + "\ntemplates")
 					.setValue(this.plugin.settings.excludeFolders.join("\n"))
 					.onChange(async (value: string) => {
 						this.plugin.settings.excludeFolders = value

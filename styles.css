@@ -25,6 +25,7 @@
 .va-empty-state { text-align: center; color: var(--text-muted); padding: 60px 20px; font-size: 16px; }
 .va-empty { color: var(--text-muted); font-size: 13px; padding: 20px; text-align: center; }
 .va-chart-error { color: var(--text-error); font-size: 13px; padding: 20px; text-align: center; }
+.va-hidden { display: none; }
 @media (max-width: 700px) {
 	.va-dashboard { padding: 12px; }
 	.va-header { flex-direction: column; gap: 10px; align-items: flex-start; }

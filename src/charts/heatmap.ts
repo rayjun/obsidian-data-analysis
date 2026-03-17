@@ -32,10 +32,9 @@ export class HeatmapChart implements ChartComponent {
 
 		const canvasWrapper = this.wrapper.createDiv({ cls: "va-heatmap-canvas-wrapper" });
 		this.canvas = canvasWrapper.createEl("canvas");
-		this.tooltip = this.wrapper.createDiv({ cls: "va-heatmap-tooltip" });
-		this.tooltip.style.display = "none";
+		this.tooltip = this.wrapper.createDiv({ cls: "va-heatmap-tooltip va-hidden" });
 		this.drawHeatmap(data);
-		this.setupTooltip(data);
+		this.setupTooltip();
 	}
 
 	destroy(): void {
@@ -81,8 +80,7 @@ export class HeatmapChart implements ChartComponent {
 		const dpr = window.devicePixelRatio || 1;
 		canvas.width = width * dpr;
 		canvas.height = height * dpr;
-		canvas.style.width = `${width}px`;
-		canvas.style.height = `${height}px`;
+		canvas.setCssProps({ "width": `${width}px`, "height": `${height}px` });
 		ctx.scale(dpr, dpr);
 
 		ctx.fillStyle = "#8b949e";
@@ -107,7 +105,7 @@ export class HeatmapChart implements ChartComponent {
 		this.labelWidth = labelWidth;
 	}
 
-	private setupTooltip(data: AggregatedData): void {
+	private setupTooltip(): void {
 		const canvas = this.canvas;
 		const tooltip = this.tooltip;
 		if (!canvas || !tooltip) return;
@@ -124,13 +122,15 @@ export class HeatmapChart implements ChartComponent {
 			const cell = cells.find((c) => c.x === col && c.y === row);
 			if (cell) {
 				tooltip.textContent = `${cell.date}: ${cell.count} ${this.i18n.activities}`;
-				tooltip.style.display = "block";
-				tooltip.style.left = `${e.clientX - rect.left + 10}px`;
-				tooltip.style.top = `${e.clientY - rect.top - 25}px`;
+				tooltip.removeClass("va-hidden");
+				tooltip.setCssProps({
+					"left": `${e.clientX - rect.left + 10}px`,
+					"top": `${e.clientY - rect.top - 25}px`,
+				});
 			} else {
-				tooltip.style.display = "none";
+				tooltip.addClass("va-hidden");
 			}
 		});
-		canvas.addEventListener("mouseleave", () => { tooltip.style.display = "none"; });
+		canvas.addEventListener("mouseleave", () => { tooltip.addClass("va-hidden"); });
 	}
 }

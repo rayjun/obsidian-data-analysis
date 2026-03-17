@@ -1,5 +1,5 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
-import type { Period, AggregatedData, ChartComponent, DataAnalyticsSettings } from "./types";
+import type { Period, ChartComponent, DataAnalyticsSettings } from "./types";
 import { t } from "./i18n";
 import { DataCollector } from "./data-collector";
 import { aggregate } from "./data-aggregator";
@@ -29,15 +29,17 @@ export class AnalyticsView extends ItemView {
 	getDisplayText(): string { return t(this.settings.language).dashboardTitle; }
 	getIcon(): string { return "bar-chart-2"; }
 
-	async onOpen(): Promise<void> {
+	onOpen(): Promise<void> {
 		this.unsubscribe = this.collector.onDataChange(() => this.rebuildUI());
 		this.rebuildUI();
+		return Promise.resolve();
 	}
 
-	async onClose(): Promise<void> {
+	onClose(): Promise<void> {
 		this.unsubscribe?.();
 		this.unsubscribe = null;
 		this.destroyCharts();
+		return Promise.resolve();
 	}
 
 	/** Rebuild entire UI including header — called on language change and data change */

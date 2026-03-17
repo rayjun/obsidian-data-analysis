@@ -46,7 +46,7 @@ const en = {
 	settingExcludeFoldersDesc: "Folders to exclude from analysis (one per line)",
 
 	// Main
-	ribbonTooltip: "Open Data Analytics",
+	ribbonTooltip: "Open data analytics",
 	commandName: "Open analytics dashboard",
 };
 

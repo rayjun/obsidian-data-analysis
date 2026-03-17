@@ -34,7 +34,7 @@ export interface DataAnalyticsSettings {
 }
 
 export const DEFAULT_SETTINGS: DataAnalyticsSettings = {
-	excludeFolders: [".obsidian"],
+	excludeFolders: [],
 	defaultPeriod: "month",
 	language: "en",
 };

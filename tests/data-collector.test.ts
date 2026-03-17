@@ -34,6 +34,7 @@ function createMockFile(path: string, ctime: number, mtime: number, ext = "md") 
 const defaultSettings: DataAnalyticsSettings = {
 	excludeFolders: [".obsidian"],
 	defaultPeriod: "month",
+	language: "en",
 };
 
 describe("DataCollector", () => {
