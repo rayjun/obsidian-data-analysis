@@ -1,4 +1,4 @@
-import { Plugin } from "obsidian";
+import { Platform, Plugin } from "obsidian";
 import { Chart, registerables } from "chart.js";
 import {
 	DataAnalyticsSettings,
@@ -78,7 +78,10 @@ export default class DataAnalyticsPlugin extends Plugin {
 
 		let leaf = workspace.getLeavesOfType(VIEW_TYPE_ANALYTICS)[0];
 		if (!leaf) {
-			const newLeaf = workspace.getRightLeaf(false);
+			// On mobile, open in main area; on desktop, open in right sidebar
+			const newLeaf = Platform.isMobile
+				? workspace.getLeaf(true)
+				: workspace.getRightLeaf(false);
 			if (newLeaf) {
 				await newLeaf.setViewState({
 					type: VIEW_TYPE_ANALYTICS,

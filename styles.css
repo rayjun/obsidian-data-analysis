@@ -26,6 +26,12 @@
 .va-empty { color: var(--text-muted); font-size: 13px; padding: 20px; text-align: center; }
 .va-chart-error { color: var(--text-error); font-size: 13px; padding: 20px; text-align: center; }
 @media (max-width: 700px) {
-	.va-summary-cards { grid-template-columns: repeat(2, 1fr); }
+	.va-dashboard { padding: 12px; }
+	.va-header { flex-direction: column; gap: 10px; align-items: flex-start; }
+	.va-header h2 { font-size: 18px; }
+	.va-summary-cards { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+	.va-card { padding: 12px; }
+	.va-card-value { font-size: 22px; }
 	.va-chart-row { flex-direction: column; }
+	.va-chart-main, .va-chart-side { min-height: 200px; }
 }
