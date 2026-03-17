@@ -4,7 +4,7 @@ import { formatDate } from "../utils";
 
 const CELL_SIZE = 12;
 const CELL_GAP = 3;
-const COLORS = ["#ebedf0", "#0e4429", "#006d32", "#26a641", "#39d353"];
+const COLORS = ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"];
 
 export class HeatmapChart implements ChartComponent {
 	private container: HTMLElement;
