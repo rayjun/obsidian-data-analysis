@@ -26,9 +26,9 @@ export default class DataAnalyticsPlugin extends Plugin {
 			this.settings,
 		);
 
-		// Register the analytics view
+		// Register the analytics view — pass settings reference so view always reads latest language
 		this.registerView(VIEW_TYPE_ANALYTICS, (leaf) => {
-			return new AnalyticsView(leaf, this.collector, this.settings.defaultPeriod, this.settings.language);
+			return new AnalyticsView(leaf, this.collector, this.settings);
 		});
 
 		// Ribbon icon to open dashboard
@@ -64,6 +64,13 @@ export default class DataAnalyticsPlugin extends Plugin {
 
 	async saveSettings(): Promise<void> {
 		await this.saveData(this.settings);
+		// Refresh any open analytics views so language/settings changes take effect immediately
+		this.app.workspace.getLeavesOfType(VIEW_TYPE_ANALYTICS).forEach((leaf) => {
+			const view = leaf.view;
+			if (view instanceof AnalyticsView) {
+				view.rebuildUI();
+			}
+		});
 	}
 
 	private async activateView(): Promise<void> {
