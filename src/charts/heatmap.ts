@@ -1,9 +1,10 @@
 import type { AggregatedData, ChartComponent } from "../types";
+import type { I18n } from "../i18n";
 import { formatDate } from "../utils";
 
 const CELL_SIZE = 12;
 const CELL_GAP = 3;
-const COLORS = ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"];
+const COLORS = ["#ebedf0", "#0e4429", "#006d32", "#26a641", "#39d353"];
 
 export class HeatmapChart implements ChartComponent {
 	private container: HTMLElement;
@@ -12,18 +13,20 @@ export class HeatmapChart implements ChartComponent {
 	private tooltip: HTMLElement | null = null;
 	private cells: { x: number; y: number; date: string; count: number }[] = [];
 	private labelWidth = 30;
+	private i18n: I18n;
 
-	constructor(container: HTMLElement) {
+	constructor(container: HTMLElement, i18n: I18n) {
 		this.container = container;
+		this.i18n = i18n;
 	}
 
 	render(data: AggregatedData): void {
 		this.destroy();
 		this.wrapper = this.container.createDiv({ cls: "va-heatmap" });
-		this.wrapper.createDiv({ cls: "va-section-title", text: "Activity Heatmap" });
+		this.wrapper.createDiv({ cls: "va-section-title", text: this.i18n.activityHeatmap });
 
 		if (data.heatmapData.size === 0) {
-			this.wrapper.createDiv({ cls: "va-empty", text: "No data for this period" });
+			this.wrapper.createDiv({ cls: "va-empty", text: this.i18n.noDataForPeriod });
 			return;
 		}
 
@@ -84,7 +87,7 @@ export class HeatmapChart implements ChartComponent {
 
 		ctx.fillStyle = "#8b949e";
 		ctx.font = "10px sans-serif";
-		const dayLabels = ["Mon", "", "Wed", "", "Fri", "", ""];
+		const dayLabels = [this.i18n.dayMon, "", this.i18n.dayWed, "", this.i18n.dayFri, "", ""];
 		for (let r = 0; r < 7; r++) {
 			if (dayLabels[r]) {
 				ctx.fillText(dayLabels[r]!, 0, r * (CELL_SIZE + CELL_GAP) + CELL_SIZE - 1);
@@ -120,7 +123,7 @@ export class HeatmapChart implements ChartComponent {
 			const row = Math.floor(y / (CELL_SIZE + CELL_GAP));
 			const cell = cells.find((c) => c.x === col && c.y === row);
 			if (cell) {
-				tooltip.textContent = `${cell.date}: ${cell.count} activities`;
+				tooltip.textContent = `${cell.date}: ${cell.count} ${this.i18n.activities}`;
 				tooltip.style.display = "block";
 				tooltip.style.left = `${e.clientX - rect.left + 10}px`;
 				tooltip.style.top = `${e.clientY - rect.top - 25}px`;

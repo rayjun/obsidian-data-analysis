@@ -1,5 +1,6 @@
 import { Chart } from "chart.js";
 import type { AggregatedData, ChartComponent } from "../types";
+import type { I18n } from "../i18n";
 
 const CHART_COLORS = ["#39d353", "#58a6ff", "#d2a8ff", "#f778ba", "#ff7b72", "#ffa657", "#d29922", "#3fb950", "#79c0ff", "#bc8cff"];
 
@@ -7,16 +8,17 @@ export class TagChart implements ChartComponent {
 	private container: HTMLElement;
 	private wrapper: HTMLElement | null = null;
 	private chart: Chart | null = null;
+	private i18n: I18n;
 
-	constructor(container: HTMLElement) { this.container = container; }
+	constructor(container: HTMLElement, i18n: I18n) { this.container = container; this.i18n = i18n; }
 
 	render(data: AggregatedData): void {
 		this.destroy();
 		this.wrapper = this.container.createDiv({ cls: "va-tag-chart" });
-		this.wrapper.createDiv({ cls: "va-section-title", text: "Tag Distribution" });
+		this.wrapper.createDiv({ cls: "va-section-title", text: this.i18n.tagDistribution });
 
 		if (data.tagDistribution.length === 0) {
-			this.wrapper.createDiv({ cls: "va-empty", text: "No tags found" });
+			this.wrapper.createDiv({ cls: "va-empty", text: this.i18n.noTagsFound });
 			return;
 		}
 
@@ -27,7 +29,7 @@ export class TagChart implements ChartComponent {
 				type: "bar",
 				data: {
 					labels: top10.map((t) => t.tag),
-					datasets: [{ label: "Notes", data: top10.map((t) => t.count), backgroundColor: top10.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]!), borderRadius: 4 }],
+					datasets: [{ label: this.i18n.notes, data: top10.map((t) => t.count), backgroundColor: top10.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]!), borderRadius: 4 }],
 				},
 				options: {
 					responsive: true, maintainAspectRatio: false, indexAxis: "y",
@@ -37,7 +39,7 @@ export class TagChart implements ChartComponent {
 			});
 		} catch (err) {
 			console.error("[Data Analytics] Failed to render tag chart:", err);
-			this.wrapper.createDiv({ cls: "va-chart-error", text: "Failed to load chart" });
+			this.wrapper.createDiv({ cls: "va-chart-error", text: this.i18n.failedToLoadChart });
 		}
 	}
 

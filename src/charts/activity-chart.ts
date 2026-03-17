@@ -1,22 +1,22 @@
 import { Chart } from "chart.js";
 import type { AggregatedData, ChartComponent } from "../types";
-
-const DAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+import type { I18n } from "../i18n";
 
 export class ActivityChart implements ChartComponent {
 	private container: HTMLElement;
 	private wrapper: HTMLElement | null = null;
 	private chart: Chart | null = null;
+	private i18n: I18n;
 
-	constructor(container: HTMLElement) { this.container = container; }
+	constructor(container: HTMLElement, i18n: I18n) { this.container = container; this.i18n = i18n; }
 
 	render(data: AggregatedData): void {
 		this.destroy();
 		this.wrapper = this.container.createDiv({ cls: "va-activity-chart" });
-		this.wrapper.createDiv({ cls: "va-section-title", text: "Weekly Activity" });
+		this.wrapper.createDiv({ cls: "va-section-title", text: this.i18n.weeklyActivity });
 
 		if (data.activityByDay.every((d) => d.count === 0)) {
-			this.wrapper.createDiv({ cls: "va-empty", text: "No data for this period" });
+			this.wrapper.createDiv({ cls: "va-empty", text: this.i18n.noDataForPeriod });
 			return;
 		}
 
@@ -25,8 +25,8 @@ export class ActivityChart implements ChartComponent {
 			this.chart = new Chart(canvas, {
 				type: "bar",
 				data: {
-					labels: DAY_LABELS,
-					datasets: [{ label: "Activities", data: data.activityByDay.map((d) => d.count), backgroundColor: data.activityByDay.map((d) => d.count > 0 ? "#39d353" : "#161b22"), borderRadius: 4 }],
+					labels: this.i18n.dayLabels,
+					datasets: [{ label: this.i18n.activities, data: data.activityByDay.map((d) => d.count), backgroundColor: data.activityByDay.map((d) => d.count > 0 ? "#39d353" : "#ebedf0"), borderRadius: 4 }],
 				},
 				options: {
 					responsive: true, maintainAspectRatio: false,
@@ -36,7 +36,7 @@ export class ActivityChart implements ChartComponent {
 			});
 		} catch (err) {
 			console.error("[Data Analytics] Failed to render activity chart:", err);
-			this.wrapper.createDiv({ cls: "va-chart-error", text: "Failed to load chart" });
+			this.wrapper.createDiv({ cls: "va-chart-error", text: this.i18n.failedToLoadChart });
 		}
 	}
 

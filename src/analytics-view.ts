@@ -1,5 +1,8 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
 import type { Period, AggregatedData, ChartComponent } from "./types";
+import type { I18n } from "./i18n";
+import { t } from "./i18n";
+import type { Language } from "./i18n";
 import { DataCollector } from "./data-collector";
 import { aggregate } from "./data-aggregator";
 import { SummaryCards } from "./charts/summary-cards";
@@ -13,18 +16,20 @@ export const VIEW_TYPE_ANALYTICS = "data-analytics-view";
 export class AnalyticsView extends ItemView {
 	private collector: DataCollector;
 	private currentPeriod: Period;
+	private language: Language;
 	private charts: ChartComponent[] = [];
 	private contentArea: HTMLElement | null = null;
 	private unsubscribe: (() => void) | null = null;
 
-	constructor(leaf: WorkspaceLeaf, collector: DataCollector, defaultPeriod: Period) {
+	constructor(leaf: WorkspaceLeaf, collector: DataCollector, defaultPeriod: Period, language: Language) {
 		super(leaf);
 		this.collector = collector;
 		this.currentPeriod = defaultPeriod;
+		this.language = language;
 	}
 
 	getViewType(): string { return VIEW_TYPE_ANALYTICS; }
-	getDisplayText(): string { return "Data Analytics"; }
+	getDisplayText(): string { return t(this.language).dashboardTitle; }
 	getIcon(): string { return "bar-chart-2"; }
 
 	async onOpen(): Promise<void> {
@@ -32,12 +37,14 @@ export class AnalyticsView extends ItemView {
 		container.empty();
 		container.addClass("va-dashboard");
 
+		const i18n = t(this.language);
+
 		const header = container.createDiv({ cls: "va-header" });
-		header.createEl("h2", { text: "Data Analytics" });
+		header.createEl("h2", { text: i18n.dashboardTitle });
 
 		const switcher = header.createDiv({ cls: "va-period-switcher" });
 		const periods: Period[] = ["week", "month", "year"];
-		const labels: Record<Period, string> = { week: "Week", month: "Month", year: "Year" };
+		const labels: Record<Period, string> = { week: i18n.week, month: i18n.month, year: i18n.year };
 
 		for (const p of periods) {
 			const btn = switcher.createEl("button", {
@@ -68,37 +75,38 @@ export class AnalyticsView extends ItemView {
 		if (!this.contentArea) return;
 		this.contentArea.empty();
 		const records = this.collector.getRecords();
+		const i18n = t(this.language);
 
 		if (records.length === 0) {
-			this.contentArea.createDiv({ cls: "va-empty-state", text: "No notes found. Start writing to see your analytics!" });
+			this.contentArea.createDiv({ cls: "va-empty-state", text: i18n.emptyVault });
 			return;
 		}
 
 		const data = aggregate(records, this.currentPeriod);
 
 		const summarySection = this.contentArea.createDiv({ cls: "va-section" });
-		const summaryCards = new SummaryCards(summarySection);
+		const summaryCards = new SummaryCards(summarySection, i18n);
 		summaryCards.render(data);
 		this.charts.push(summaryCards);
 
 		const heatmapSection = this.contentArea.createDiv({ cls: "va-section" });
-		const heatmap = new HeatmapChart(heatmapSection);
+		const heatmap = new HeatmapChart(heatmapSection, i18n);
 		heatmap.render(data);
 		this.charts.push(heatmap);
 
 		const chartRow = this.contentArea.createDiv({ cls: "va-chart-row" });
 		const trendSection = chartRow.createDiv({ cls: "va-chart-main" });
-		const trendChart = new TrendChart(trendSection);
+		const trendChart = new TrendChart(trendSection, i18n);
 		trendChart.render(data);
 		this.charts.push(trendChart);
 
 		const tagSection = chartRow.createDiv({ cls: "va-chart-side" });
-		const tagChart = new TagChart(tagSection);
+		const tagChart = new TagChart(tagSection, i18n);
 		tagChart.render(data);
 		this.charts.push(tagChart);
 
 		const activitySection = this.contentArea.createDiv({ cls: "va-section" });
-		const activityChart = new ActivityChart(activitySection);
+		const activityChart = new ActivityChart(activitySection, i18n);
 		activityChart.render(data);
 		this.charts.push(activityChart);
 	}

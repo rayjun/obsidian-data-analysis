@@ -1,3 +1,5 @@
+import type { Language } from "./i18n";
+
 export type Period = "week" | "month" | "year";
 
 export interface FileRecord {
@@ -28,14 +30,17 @@ export interface AggregatedData {
 export interface DataAnalyticsSettings {
 	excludeFolders: string[];
 	defaultPeriod: Period;
+	language: Language;
 }
 
 export const DEFAULT_SETTINGS: DataAnalyticsSettings = {
 	excludeFolders: [".obsidian"],
 	defaultPeriod: "month",
+	language: "en",
 };
 
 export interface ChartComponent {
 	render(data: AggregatedData): void;
 	destroy(): void;
 }
+

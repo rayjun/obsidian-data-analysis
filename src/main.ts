@@ -4,6 +4,7 @@ import {
 	DataAnalyticsSettings,
 	DEFAULT_SETTINGS,
 } from "./types";
+import { t } from "./i18n";
 
 Chart.register(...registerables);
 import { DataAnalyticsSettingTab } from "./settings";
@@ -16,6 +17,7 @@ export default class DataAnalyticsPlugin extends Plugin {
 
 	async onload(): Promise<void> {
 		await this.loadSettings();
+		const i18n = t(this.settings.language);
 
 		// Initialize data collector
 		this.collector = new DataCollector(
@@ -26,18 +28,18 @@ export default class DataAnalyticsPlugin extends Plugin {
 
 		// Register the analytics view
 		this.registerView(VIEW_TYPE_ANALYTICS, (leaf) => {
-			return new AnalyticsView(leaf, this.collector, this.settings.defaultPeriod);
+			return new AnalyticsView(leaf, this.collector, this.settings.defaultPeriod, this.settings.language);
 		});
 
 		// Ribbon icon to open dashboard
-		this.addRibbonIcon("bar-chart-2", "Open Data Analytics", () => {
+		this.addRibbonIcon("bar-chart-2", i18n.ribbonTooltip, () => {
 			this.activateView();
 		});
 
 		// Command to open dashboard
 		this.addCommand({
 			id: "open-data-analytics",
-			name: "Open analytics dashboard",
+			name: i18n.commandName,
 			callback: () => {
 				this.activateView();
 			},
