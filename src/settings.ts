@@ -29,10 +29,9 @@ export class DataAnalyticsSettingTab extends PluginSettingTab {
 					.addOption("en", "English")
 					.addOption("zh", "中文")
 					.setValue(this.plugin.settings.language)
-					.onChange(async (value: string) => {
+					.onChange((value: string) => {
 						this.plugin.settings.language = value as Language;
-						await this.plugin.saveSettings();
-						this.display();
+						void this.plugin.saveSettings().then(() => this.display());
 					}),
 			);
 
@@ -45,9 +44,9 @@ export class DataAnalyticsSettingTab extends PluginSettingTab {
 					.addOption("month", i18n.month)
 					.addOption("year", i18n.year)
 					.setValue(this.plugin.settings.defaultPeriod)
-					.onChange(async (value: string) => {
+					.onChange((value: string) => {
 						this.plugin.settings.defaultPeriod = value as Period;
-						await this.plugin.saveSettings();
+						void this.plugin.saveSettings();
 					}),
 			);
 
@@ -58,12 +57,12 @@ export class DataAnalyticsSettingTab extends PluginSettingTab {
 				text
 					.setPlaceholder(this.app.vault.configDir + "\ntemplates")
 					.setValue(this.plugin.settings.excludeFolders.join("\n"))
-					.onChange(async (value: string) => {
+					.onChange((value: string) => {
 						this.plugin.settings.excludeFolders = value
 							.split("\n")
 							.map((s) => s.trim())
 							.filter((s) => s.length > 0);
-						await this.plugin.saveSettings();
+						void this.plugin.saveSettings();
 					}),
 			);
 	}

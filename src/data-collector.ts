@@ -34,7 +34,7 @@ export class DataCollector {
 		const handler = () => {
 			if (this.debounceTimer) clearTimeout(this.debounceTimer);
 			this.debounceTimer = setTimeout(() => {
-				void this.scanAll().then(() => this.notifyChange());
+				void this.scanAll().then(() => this.notifyChange()).catch(() => { /* scan failed silently */ });
 			}, 500);
 		};
 		const createRef = this.vault.on("create", handler);

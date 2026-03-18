@@ -99,7 +99,7 @@ export default class DataAnalyticsPlugin extends Plugin {
 		}
 
 		if (leaf) {
-			workspace.revealLeaf(leaf);
+			await workspace.revealLeaf(leaf);
 		}
 	}
 }
